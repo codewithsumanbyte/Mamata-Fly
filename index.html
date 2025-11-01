@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="description" content="A fun Flappy Bird-style game with West Bengal cultural theme" />
   <meta name="theme-color" content="#f7931e" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -23,7 +23,7 @@
     <img src="mamta_-removebg-preview.png" alt="Mamata" class="loading-image" />
     <h1 class="game-title">MAMATA FLY</h1>
     <div class="instructions">
-      <p>Click, Press Space, or Arrow Up to fly!</p>
+      <p>👆 Tap anywhere to fly!</p>
       <p>Avoid the obstacles and get a high score!</p>
     </div>
     <button id="startBtn" class="game-btn">Start Game</button>
@@ -42,6 +42,7 @@
   <div id="gameUI" class="hidden">
     <div id="score">0</div>
     <div id="pauseIndicator" class="hidden">PAUSED - Click to resume</div>
+    <div id="milestoneMessage" class="hidden"></div>
   </div>
 
   <!-- Canvas -->

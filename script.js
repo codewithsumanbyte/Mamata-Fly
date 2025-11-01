@@ -8,6 +8,7 @@ const gameOverScreen = document.getElementById("gameOverScreen");
 const gameUI = document.getElementById("gameUI");
 const highScoreDisplay = document.getElementById("highScoreDisplay");
 const pauseIndicator = document.getElementById("pauseIndicator");
+const milestoneMessage = document.getElementById("milestoneMessage");
 
 // Audio elements - wait for DOM to be ready
 let mamataVoiceSound, lastSound;
@@ -50,6 +51,7 @@ let gameStarted = false;
 let gamePaused = false;
 let animationId = null;
 let screenShake = 0;
+let milestonesShown = { 10: false, 20: false };
 
 // High score
 let highScore = localStorage.getItem('flappyBirdHighScore') || 0;
@@ -119,11 +121,11 @@ pipeImage.src = 'modi.png';
 const bird = {
   x: 80,
   y: 150,
-  radius: 20, // Slightly larger for easier gameplay
-  width: 36, // Image width
-  height: 36, // Image height
-  gravity: 0.4, // Reduced gravity for easier control
-  lift: -9, // Increased lift for better responsiveness
+  radius: 22, // Larger for easier mobile gameplay
+  width: 42, // Larger image width for mobile
+  height: 42, // Larger image height for mobile
+  gravity: 0.35, // Even lower gravity for mobile-friendly control
+  lift: -8.5, // Optimized lift for mobile touch
   velocity: 0,
   angle: 0,
   wingPhase: 0,
@@ -293,7 +295,7 @@ function createExplosionParticles(x, y) {
 
 // Enhanced pipe creation - Made easier with larger gaps
 function createPipe() {
-  const gap = 200; // Increased from 140 to 200 for easier gameplay
+  const gap = 270; // Extra large gap for mobile-friendly gameplay
   const minHeight = 60;
   const maxHeight = canvas.height - gap - minHeight;
   const topHeight = Math.random() * (maxHeight - minHeight) + minHeight;
@@ -371,7 +373,7 @@ function drawPipes() {
 // Update pipes with improved collision - Made easier with slower movement
 function updatePipes() {
   pipes.forEach((pipe, index) => {
-    pipe.x -= 2; // Slowed down from 3 to 2 for easier gameplay
+    pipe.x -= 1.6; // Slower for mobile-friendly gameplay
     
     // Score when bird passes pipe
     if (!pipe.scored && pipe.x + pipe.width < bird.x) {
@@ -382,6 +384,15 @@ function updatePipes() {
       setTimeout(() => {
         scoreDisplay.style.animation = 'scorePulse 0.3s ease';
       }, 10);
+      
+      // Show milestone messages
+      if (score === 10 && !milestonesShown[10]) {
+        showMilestoneMessage('Didi oo Didi! 🎉');
+        milestonesShown[10] = true;
+      } else if (score === 20 && !milestonesShown[20]) {
+        showMilestoneMessage('Modi ji arrived in Kolkata! 🚁');
+        milestonesShown[20] = true;
+      }
       
       // Score particles
       for (let i = 0; i < 10; i++) {
@@ -423,12 +434,24 @@ function updatePipes() {
   });
   
   // Create new pipes - less frequently for easier gameplay
-  if (frames % 120 === 0) { // Increased from 90 to 120 frames
+  if (frames % 170 === 0) { // Extra spacing for mobile-friendly gameplay
     createPipe();
   }
 }
 
 // Game state functions
+// Show milestone message
+function showMilestoneMessage(message) {
+  milestoneMessage.textContent = message;
+  milestoneMessage.classList.remove('hidden');
+  milestoneMessage.style.animation = 'milestoneAppear 3s ease-in-out';
+  
+  setTimeout(() => {
+    milestoneMessage.classList.add('hidden');
+    milestoneMessage.style.animation = '';
+  }, 3000);
+}
+
 function startGame() {
   gameStarted = true;
   gameOver = false;
@@ -437,11 +460,14 @@ function startGame() {
   pipes = [];
   particles = [];
   frames = 0;
+  milestonesShown = { 10: false, 20: false };
   bird.reset();
   scoreDisplay.textContent = '0';
   startScreen.classList.add('hidden');
   gameOverScreen.classList.add('hidden');
   gameUI.classList.remove('hidden');
+  milestoneMessage.classList.add('hidden');
+  milestoneMessage.style.animation = '';
   
   // Play mamata voice sound when game starts
   if (mamataVoiceSound) {
@@ -467,6 +493,10 @@ function endGame() {
   
   gameOver = true;
   gameStarted = false;
+  
+  // Hide milestone message if showing
+  milestoneMessage.classList.add('hidden');
+  milestoneMessage.style.animation = '';
   
   // Stop mamata voice sound when game finishes
   if (mamataVoiceSound && !mamataVoiceSound.paused) {
@@ -612,11 +642,39 @@ function handleInput() {
   }
 }
 
+// Enhanced touch handling for mobile
+let touchStartTime = 0;
+let lastTouchTime = 0;
+
 canvas.addEventListener("click", handleInput);
+
 canvas.addEventListener("touchstart", (e) => {
   e.preventDefault();
+  touchStartTime = Date.now();
+  
+  // Prevent double-tap zoom on mobile
+  const now = Date.now();
+  if (now - lastTouchTime < 300) {
+    e.preventDefault();
+  }
+  lastTouchTime = now;
+  
   handleInput();
-});
+  
+  // Visual feedback for touch
+  canvas.style.transform = 'scale(0.98)';
+  setTimeout(() => {
+    canvas.style.transform = 'scale(1)';
+  }, 100);
+}, { passive: false });
+
+canvas.addEventListener("touchend", (e) => {
+  e.preventDefault();
+}, { passive: false });
+
+canvas.addEventListener("touchmove", (e) => {
+  e.preventDefault();
+}, { passive: false });
 
 // Keyboard controls
 document.addEventListener("keydown", (e) => {
