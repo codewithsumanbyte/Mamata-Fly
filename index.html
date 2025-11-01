@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MAMATA FLY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Start Screen -->
+  <div id="startScreen" class="screen">
+    <img src="mamta_-removebg-preview.png" alt="Mamata" class="loading-image" />
+    <h1 class="game-title">MAMATA FLY</h1>
+    <div class="instructions">
+      <p>Click, Press Space, or Arrow Up to fly!</p>
+      <p>Avoid the obstacles and get a high score!</p>
+    </div>
+    <button id="startBtn" class="game-btn">Start Game</button>
+    <div class="high-score-display">
+      <p>Best Score: <span id="highScoreDisplay">0</span></p>
+    </div>
+  </div>
+
+  <!-- Game Over Screen -->
+  <div id="gameOverScreen" class="screen hidden">
+    <img src="lastpic.png" alt="Game Over" class="game-over-image" />
+    <button id="restartBtn" class="game-btn">Play Again</button>
+  </div>
+
+  <!-- Game UI -->
+  <div id="gameUI" class="hidden">
+    <div id="score">0</div>
+    <div id="pauseIndicator" class="hidden">PAUSED - Click to resume</div>
+  </div>
+
+  <!-- Canvas -->
+  <canvas id="gameCanvas" width="400" height="600"></canvas>
+
+  <!-- Creator Footer -->
+  <div class="creator-footer">
+    Fun by Suman
+  </div>
+
+  <!-- Audio elements -->
+  <audio id="mamataVoiceSound" src="mamata_voice.mp3" preload="auto"></audio>
+  <audio id="lastSound" src="last.mp3" preload="auto"></audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
