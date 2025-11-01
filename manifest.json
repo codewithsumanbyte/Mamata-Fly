@@ -2,7 +2,7 @@
   "name": "MAMATA FLY",
   "short_name": "Mamata Fly",
   "description": "A fun Flappy Bird-style game with West Bengal cultural theme",
-  "start_url": "./index.html",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#ff6b35",
   "theme_color": "#f7931e",
@@ -10,23 +10,10 @@
   "icons": [
     {
       "src": "mamta_-removebg-preview.png",
-      "sizes": "192x192",
+      "sizes": "any",
       "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "mamta_-removebg-preview.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ],
-  "categories": ["games", "entertainment"],
-  "screenshots": [
-    {
-      "src": "lastpic.png",
-      "sizes": "400x600",
-      "type": "image/png"
-    }
-  ]
+  "categories": ["games", "entertainment"]
 }
